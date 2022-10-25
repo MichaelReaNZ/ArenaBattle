@@ -7,7 +7,7 @@ public class Weapon : MonoBehaviour, IProjectile
     float rateOfFire = 100.0f;
     public GameObject Projectile;
     GameObject projectileInstance;
-    IProjectile = thisProjectile;
+    IProjectile thisProjectile;
     bool canFire = false;
     float damage = 100.0f;
     float flightTime = 100.0f;
@@ -29,7 +29,7 @@ public class Weapon : MonoBehaviour, IProjectile
             if (Input.GetKeyDown("UpArrow"))
             {
                 canFire = false;
-                Vector3.forward forward;
+                Vector3.forward  = forward;
                 projectileInstance.GetComponent<Projectile>().Init(forward, flightTime, damage);
 
             }
