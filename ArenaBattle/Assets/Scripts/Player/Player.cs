@@ -21,9 +21,9 @@ public class Player : MonoBehaviour
         _playerUI.HandleInitPlayer();
     }
 
-    public void SpawnCharacter()
+    public void SpawnCharacter(Vector3 pos)
     {
-        var character = Instantiate(Character, new Vector3(0,1,0), Quaternion.identity);
+        var character = Instantiate(Character, pos, Quaternion.identity);
         character.SetController(Controller);
         _playerUI.DisableInitText();
     }

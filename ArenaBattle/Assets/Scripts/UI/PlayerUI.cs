@@ -27,6 +27,5 @@ public class PlayerUI : MonoBehaviour
     {
         yield return new WaitForSeconds(1.5f);
         _initText.text = "";
-        FindObjectOfType<PlayerManager>().LoadLevel();
     }
 }
