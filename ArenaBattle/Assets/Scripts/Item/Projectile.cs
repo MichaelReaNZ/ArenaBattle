@@ -10,6 +10,31 @@ public class Projectile : MonoBehaviour
     float damage = 0.0f;
     Vector3 velocity = new Vector3(0.0f, 0.0f, 0.0f);
 
+    public float getVelocity
+    {
+        get
+        {
+            return velocity.magnitude;
+        }
+    }
+
+    public float getDamage
+    {
+        get
+        {
+            return damage;
+        }
+    }
+
+    public float getFlightTime
+    {
+        get
+        {
+            return flightTime;
+        }
+    }
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -19,22 +44,22 @@ public class Projectile : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+      
     }
-    //Something about interacting with objects
+/*    //Something about interacting with objects
     void OnCollisionEnter(Collision collision)
     {
         if (collision.GetComponent<Player>)
         {
             Player.TakeDamage(damage);
         }
-    }
+    }*/
     //something about destroying itself when hitting objects
 
-    public void Initialise(Vector3 velocity, float flightTime, float damage)
+    public void Initialise(Vector3 _velocity, float _flightTime, float _damage)
     {
-        this->velocity = velocity;
-        this->flightTime = flightTime;
-        this->damage = damage;
+        velocity = _velocity;
+        flightTime = _flightTime;
+        damage = _damage;
     }
 }
