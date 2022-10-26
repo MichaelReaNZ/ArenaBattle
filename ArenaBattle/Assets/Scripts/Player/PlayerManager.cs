@@ -48,5 +48,10 @@ public class PlayerManager : MonoBehaviour
             yield return null;
         }
         Debug.Log("Level Loaded");
+        FindObjectOfType<LevelController>().SpawnPlayers();
+        foreach (var player in _players)
+        {
+            player.InitInGameUI();
+        }
     }
 }

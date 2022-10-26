@@ -10,7 +10,7 @@ public class LevelController : MonoBehaviour
         _spawnPoints = FindObjectsOfType<SpawnPoint>();
     }
 
-    private void Start()
+    public void SpawnPlayers()
     {
         foreach (var player in PlayerManager.Instance.Players)
         {
@@ -18,8 +18,11 @@ public class LevelController : MonoBehaviour
             {
                 if (!spawnPoint.IsSpawning)
                 {
-                    spawnPoint.IsSpawning = true;
-                    spawnPoint.SpawnPlayer(player);
+                    if (player.HasController && player.Character != null)
+                    {
+                        spawnPoint.IsSpawning = true;
+                        spawnPoint.SpawnPlayer(player);
+                    }
                 }
             }
         }
