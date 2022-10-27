@@ -65,6 +65,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         //TODO: Manage the game
+        StartTimer();
     }
 
     // Update is called once per frame
