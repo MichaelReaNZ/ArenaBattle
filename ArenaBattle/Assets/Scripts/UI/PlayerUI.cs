@@ -20,7 +20,7 @@ public class PlayerUI : MonoBehaviour
 
     public void DisableInitText()
     {
-        _initText.gameObject.SetActive(false);
+        if (_initText != null) _initText.gameObject.SetActive(false);
     }
 
     private IEnumerator ClearTextAfterDelay()

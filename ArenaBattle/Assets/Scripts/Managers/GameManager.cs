@@ -1,9 +1,7 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using AsyncOperation = UnityEngine.AsyncOperation;
@@ -11,14 +9,12 @@ using AsyncOperation = UnityEngine.AsyncOperation;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
+    public GameState currentGameState { get; private set; }
     [SerializeField] private string levelToLoad;
     
     public Player[] Players => _players;
     private Player[] _players;
-   // private bool levelLoaded = false;
-
-    public GameState currentGameState { get; private set; }
-
+    
     //keep track of how long the game has been running
     private TimeSpan _timePlaying;
     private bool _isTimerRunning;
@@ -44,8 +40,6 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        
-        _players = FindObjectsOfType<Player>();
     }
     
     // Start is called before the first frame update
@@ -61,50 +55,50 @@ public class GameManager : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                StartCoroutine(BeginGame());
                 ChangeGameState(GameState.GameInProgress);
-                //levelLoaded = true;
             }
-            
+        }
+        if (currentGameState == GameState.GameOver)
+        { 
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                ChangeGameState(GameState.MainMenu);
+            }
+        }
+        
+        //Quit
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
         }
     }
-
-   // public static event Action<GameState> OnGameStateChanged; 
-    
-    
-
 
     public void ChangeGameState(GameState newGameState)
     {
         currentGameState = newGameState;
-     
         switch (newGameState)
         {
             case GameState.MainMenu:
-                break;
-            case GameState.GameInProgress:
             {
-                //BeginGame();
-                //StartCoroutine(BeginGame());
-                StartTimer();
+                _players = FindObjectsOfType<Player>();
+                SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
+                break;
             }
-               
+            case GameState.GameInProgress:
+                StartCoroutine(BeginGame());
                 break;
             case GameState.GameOver:
-            {
                 SceneManager.LoadScene("GameOver", LoadSceneMode.Single);
-                Debug.Log("End Game State");
-            }
                 break;
-            case GameState.ShrinkingArena:{}
+            case GameState.ShrinkingArena:
+            {
+            }
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(newGameState), newGameState, null);
         }
-
-        //OnGameStateChanged?.Invoke(newGameState);
     }
-    
+
     public void AddPlayerToGame(Controller controller)
     {
         var firstAvailable = _players.OrderBy(t => t.PlayerNumber).
@@ -145,20 +139,15 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator BeginGame()
     {
-        ChangeGameState(GameState.GameInProgress);
-        
         AsyncOperation operation = SceneManager.LoadSceneAsync(levelToLoad, LoadSceneMode.Single);
         while (operation.isDone == false)
-        {
             yield return null;
-        }
-        
+
         Debug.Log("Level Loaded");
         FindObjectOfType<LevelController>().SpawnPlayers();
-        foreach (var player in _players)
-        {
-            player.InitInGameUI();
-        }
+        foreach (var player in _players) player.InitInGameUI();
+
+        StartTimer();
     }
     
 }
