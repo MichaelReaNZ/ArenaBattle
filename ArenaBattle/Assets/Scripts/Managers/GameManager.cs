@@ -19,6 +19,10 @@ public class GameManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
+            DontDestroyOnLoad(gameObject);
+        } else if (Instance != this)
+        {
+            Destroy(gameObject);
         }
     }
 
@@ -46,10 +50,10 @@ public class GameManager : MonoBehaviour
         isTimerRunning = true;
         elapsedTime = 0f;
 
-        StartCoroutine(UpdateTimer() as string);
+        StartCoroutine(UpdateTimer());
     }
     
-    private IEnumerable UpdateTimer()
+    private IEnumerator UpdateTimer()
     {
         while (isTimerRunning)
         {
@@ -71,6 +75,10 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(timePlaying.Seconds > 10)
+        {
+        //    UpdateGameState(GameState.GameOver);
+        }
     }
 }
 
