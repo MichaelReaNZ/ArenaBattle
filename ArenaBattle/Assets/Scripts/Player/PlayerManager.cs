@@ -8,6 +8,7 @@ public class PlayerManager : MonoBehaviour
 {
     public static PlayerManager Instance { get; private set; }
     public Player[] Players => _players;
+    [SerializeField] private string levelToLoad;
     private Player[] _players;
     private bool levelLoaded = false;
 
@@ -53,7 +54,7 @@ public class PlayerManager : MonoBehaviour
 
     private IEnumerator BeginGame()
     {
-        AsyncOperation operation = SceneManager.LoadSceneAsync(1, LoadSceneMode.Additive);
+        AsyncOperation operation = SceneManager.LoadSceneAsync(levelToLoad, LoadSceneMode.Additive);
         while (operation.isDone == false)
         {
             yield return null;
