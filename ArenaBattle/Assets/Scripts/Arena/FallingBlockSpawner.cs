@@ -42,7 +42,7 @@ public bool shrinkingOn = false;
     // Update is called once per frame
     void Update()
     {
-        if (shrinkingOn)
+        if (shrinkingOn || (GameManager.Instance != null && GameManager.Instance.currentGameState == GameManager.GameState.ShrinkingArena))
         {
             UpdateTimer();
         }
@@ -58,6 +58,8 @@ public bool shrinkingOn = false;
         {
             SpawnObject();
             currentTimeBetweenSpawn = timeBetweenSpawn;
+            //add some variation to the time between spawn
+            timeBetweenSpawn = timeBetweenSpawn * UnityEngine.Random.Range(0.9f, 1.1f);
         }
     }
 
@@ -76,7 +78,8 @@ public bool shrinkingOn = false;
         float currentOffsetZ = -(numberOfBlocksThatFitInArenaHeight - 1) * localScale.z;
         if (positionOffsetZ < currentOffsetZ)
         {
-            return;
+            //TODO: Change this to check if any players remaining first
+           GameManager.Instance.ChangeGameState(GameManager.GameState.GameOver);
         }
         
         Vector3 spawnPosition = transform.position;

@@ -1,19 +1,39 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using AsyncOperation = UnityEngine.AsyncOperation;
 
 public class GameManager : MonoBehaviour
 {
-    private static GameManager Instance;
+    public static GameManager Instance { get; private set; }
+    [SerializeField] private string levelToLoad;
     
+    public Player[] Players => _players;
+    private Player[] _players;
+   // private bool levelLoaded = false;
+
+    public GameState currentGameState { get; private set; }
+
     //keep track of how long the game has been running
-    private TimeSpan timePlaying;
-    private bool isTimerRunning;
-    private float elapsedTime;
+    private TimeSpan _timePlaying;
+    private bool _isTimerRunning;
+    private float _elapsedTime;
+
+    [SerializeField] private int shrinkAfterSeconds;
     
-    public static event Action<GameState> OnGameStateChanged; 
+    public enum GameState
+    {
+        MainMenu,
+        GameInProgress,
+        ShrinkingArena,
+        [Description ("GameOver")] GameOver
+    }
+    
     void Awake()
     {
         if (Instance == null)
@@ -24,68 +44,123 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        
+        _players = FindObjectsOfType<Player>();
+    }
+    
+    // Start is called before the first frame update
+    void Start()
+    {
+        ChangeGameState(GameState.MainMenu);
+    }
+    
+    // Update is called once per frame
+    void Update()
+    {
+        if (currentGameState == GameState.MainMenu)
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                StartCoroutine(BeginGame());
+                ChangeGameState(GameState.GameInProgress);
+                //levelLoaded = true;
+            }
+            
+        }
     }
 
-    public void UpdateGameState(GameState newGameState)
+   // public static event Action<GameState> OnGameStateChanged; 
+    
+    
+
+
+    public void ChangeGameState(GameState newGameState)
     {
+        currentGameState = newGameState;
+     
         switch (newGameState)
         {
             case GameState.MainMenu:
                 break;
             case GameState.GameInProgress:
+            {
+                //BeginGame();
+                //StartCoroutine(BeginGame());
+                StartTimer();
+            }
+               
                 break;
             case GameState.GameOver:
+            {
+                SceneManager.LoadScene("GameOver", LoadSceneMode.Single);
+                Debug.Log("End Game State");
+            }
                 break;
-            case GameState.ShrinkingArena:
+            case GameState.ShrinkingArena:{}
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(newGameState), newGameState, null);
         }
 
-        OnGameStateChanged?.Invoke(newGameState);
+        //OnGameStateChanged?.Invoke(newGameState);
+    }
+    
+    public void AddPlayerToGame(Controller controller)
+    {
+        var firstAvailable = _players.OrderBy(t => t.PlayerNumber).
+            FirstOrDefault(t => t.HasController == false);
+        
+        if (firstAvailable != null)
+        {
+            firstAvailable.InitPlayer(controller);
+        }
     }
     
     public void StartTimer()
     {
-        isTimerRunning = true;
-        elapsedTime = 0f;
+        _isTimerRunning = true;
+        _elapsedTime = 0f;
 
         StartCoroutine(UpdateTimer());
     }
     
     private IEnumerator UpdateTimer()
     {
-        while (isTimerRunning)
+        while (_isTimerRunning)
         {
-            elapsedTime += Time.deltaTime;
-            timePlaying = TimeSpan.FromSeconds(elapsedTime);
-            string timePlayingStr = "Time: " + timePlaying.ToString("mm':'ss'.'ff");
+            _elapsedTime += Time.deltaTime;
+            _timePlaying = TimeSpan.FromSeconds(_elapsedTime);
+            string timePlayingStr = "Time: " + _timePlaying.ToString("mm':'ss'.'ff");
             Debug.Log(timePlayingStr);
+            
+            if (_timePlaying.Seconds >= shrinkAfterSeconds)
+            {
+                ChangeGameState(GameState.ShrinkingArena);
+                _isTimerRunning = false;
+            }
+            
             yield return null;
         }
     }
 
-    // Start is called before the first frame update
-    void Start()
+    private IEnumerator BeginGame()
     {
-        //TODO: Manage the game
-        StartTimer();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if(timePlaying.Seconds > 10)
+        ChangeGameState(GameState.GameInProgress);
+        
+        AsyncOperation operation = SceneManager.LoadSceneAsync(levelToLoad, LoadSceneMode.Single);
+        while (operation.isDone == false)
         {
-        //    UpdateGameState(GameState.GameOver);
+            yield return null;
+        }
+        
+        Debug.Log("Level Loaded");
+        FindObjectOfType<LevelController>().SpawnPlayers();
+        foreach (var player in _players)
+        {
+            player.InitInGameUI();
         }
     }
+    
 }
 
-public enum GameState
-{
-    MainMenu,
-    GameInProgress,
-    ShrinkingArena,
-    GameOver
-}
+
