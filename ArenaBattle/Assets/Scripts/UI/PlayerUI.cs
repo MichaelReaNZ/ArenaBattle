@@ -18,10 +18,14 @@ public class PlayerUI : MonoBehaviour
         StartCoroutine(ClearTextAfterDelay());
     }
 
+    public void DisableInitText()
+    {
+        _initText.gameObject.SetActive(false);
+    }
+
     private IEnumerator ClearTextAfterDelay()
     {
         yield return new WaitForSeconds(1.5f);
-        _initText.text = String.Empty;
-        FindObjectOfType<PlayerManager>().LoadLevel();
+        _initText.text = "";
     }
 }

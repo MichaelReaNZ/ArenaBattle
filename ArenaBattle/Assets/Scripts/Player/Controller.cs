@@ -9,10 +9,14 @@ public class Controller : MonoBehaviour
     public bool shootPressed;
     public float horizontal;
     public float vertical;
+    public float rHorizontal;
+    public float rVertical;
     
     private string _shootButton;
     private string _horizontalAxis;
     private string _verticalAxis;
+    private string _rotationHorizontal;
+    private string _rotationVertical;
     
 
     public bool AnyButtonDown()
@@ -37,6 +41,16 @@ public class Controller : MonoBehaviour
         {
             vertical = Input.GetAxis(_verticalAxis);
         }
+
+        if (!string.IsNullOrEmpty(_rotationHorizontal))
+        {
+            rHorizontal = Input.GetAxis(_rotationHorizontal);
+        }
+        
+        if (!string.IsNullOrEmpty(_rotationVertical))
+        {
+            rVertical = Input.GetAxis(_rotationVertical);
+        }
     }
 
     public void SetIndex(int index)
@@ -45,6 +59,18 @@ public class Controller : MonoBehaviour
         _shootButton = "Shoot" + Index;
         _horizontalAxis = "Horizontal" + Index;
         _verticalAxis = "Vertical" + Index;
+        _rotationHorizontal = "rHorizontal" + Index;
+        _rotationVertical = "rVertical" + Index;
         gameObject.name = "Controller" + Index;
+    }
+
+    public Vector3 GetMovementDirection()
+    {
+         return new Vector3(horizontal, 0,-vertical);
+    }
+
+    public Vector3 GetFacingDirection()
+    {
+        return new Vector3(rHorizontal/5, 0, -rVertical/5);
     }
 }

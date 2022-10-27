@@ -6,7 +6,7 @@ public class SpawnPoint : MonoBehaviour
 
     public void SpawnPlayer(Player player)
     {
-        player.transform.position = transform.position;
+        player.SpawnCharacter(transform.position);
         IsSpawning = false;
     }
 }

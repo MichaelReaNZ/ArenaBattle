@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Linq;
+using UnityEngine;
 
 public class LevelController : MonoBehaviour
 {
@@ -10,17 +11,17 @@ public class LevelController : MonoBehaviour
         _spawnPoints = FindObjectsOfType<SpawnPoint>();
     }
 
-    private void Start()
+    public void SpawnPlayers()
     {
+        var availableSpawns = _spawnPoints.ToList();
         foreach (var player in PlayerManager.Instance.Players)
         {
-            foreach (var spawnPoint in _spawnPoints)
+            if (player.HasController && player.Character != null)
             {
-                if (!spawnPoint.IsSpawning)
-                {
-                    spawnPoint.IsSpawning = true;
-                    spawnPoint.SpawnPlayer(player);
-                }
+                var spawn = availableSpawns[0];
+                spawn.IsSpawning = true;
+                spawn.SpawnPlayer(player);
+                availableSpawns.Remove(spawn);
             }
         }
     }

@@ -8,25 +8,54 @@ public class Weapon : MonoBehaviour
     [SerializeField] WeaponData weaponData;
 
     float timeSinceLastShot;
+    public GameObject bullet;
+
+    
+    //ref
+    public Camera PlayerSights;
+    public Transform attackPoint;
 
     private void Start()
     {
         PlayerShoot.shootInput += Shoot;
+       
     }
 
     private bool CanShoot() => timeSinceLastShot > 1f / (weaponData.fireRate / 6f);
 
     public void Shoot()
     {
-        Debug.Log("shot");
+        Debug.Log("shot taken");
+        Vector3 targetPoint;
+
+        Ray ray = PlayerSights.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+        RaycastHit hit;
         if (weaponData.currentAmmo > 0)
         {
             if (CanShoot())
             {
-                if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hitInfo, weaponData.maxDist))
+                if (Physics.Raycast(ray, out hit))
                 {
-                    Debug.Log("hit Something");
+                    Debug.Log(hit.transform.name);
+                    targetPoint = hit.point;
                 }
+                else
+                {
+                    //fix this later
+                    targetPoint = ray.GetPoint(75);
+                }
+
+                Vector3 direction = targetPoint - attackPoint.position;
+               
+
+                GameObject currentBullet = Instantiate(bullet,
+                    attackPoint.position,
+                    Quaternion.identity);
+
+                currentBullet.transform.forward = direction.normalized;
+
+
+
                 weaponData.currentAmmo--;
                 timeSinceLastShot = 0;
                 OnWeaponShot();
