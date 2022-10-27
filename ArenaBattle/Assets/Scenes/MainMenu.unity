@@ -954,6 +954,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4216e740a6994775be3b00fa5ea4796f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelToLoad: TestScene
 --- !u!4 &2098907226
 Transform:
   m_ObjectHideFlags: 0
