@@ -283,6 +283,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerNumber: 0
+  Character: {fileID: 0}
 --- !u!114 &523580899946199588
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -295,3 +296,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c12f7d3f327784742b9137150c08c067, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _defaultText: Press any button to join

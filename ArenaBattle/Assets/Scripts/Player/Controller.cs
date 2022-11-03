@@ -24,6 +24,22 @@ public class Controller : MonoBehaviour
         return shoot;
     }
 
+    private void Start()
+    {
+        GameManager.OnGameOver += GameManager_OnGameOver;
+    }
+
+    private void OnDestroy()
+    {
+        GameManager.OnGameOver -= GameManager_OnGameOver;
+    }
+
+    private void GameManager_OnGameOver()
+    {
+        Index = 0;
+        IsAssigned = false;
+    }
+
     private void Update()
     {
         if (!string.IsNullOrEmpty(_shootButton))
@@ -63,6 +79,8 @@ public class Controller : MonoBehaviour
         _rotationVertical = "rVertical" + Index;
         gameObject.name = "Controller" + Index;
     }
+    
+    
 
     public Vector3 GetMovementDirection()
     {

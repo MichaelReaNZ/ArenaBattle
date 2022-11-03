@@ -33,6 +33,6 @@ public class ControllerManager : MonoBehaviour
     {
         controller.IsAssigned = true;
         Debug.Log("Assigned Controller: " +controller.gameObject.name);
-        FindObjectOfType<GameManager>().AddPlayerToGame(controller);
+        GameManager.Instance.AddPlayerToGame(controller);
     }
 }

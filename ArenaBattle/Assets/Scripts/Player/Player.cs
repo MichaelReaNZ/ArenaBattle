@@ -1,17 +1,35 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class Player : MonoBehaviour
 {
     [SerializeField] private int _playerNumber;
     public Controller Controller { get; private set; }
     public Character Character;
+
     private PlayerUI _playerUI;
+    
     public bool HasController => Controller != null;
     public int PlayerNumber => _playerNumber;
 
     private void Awake()
     {
         _playerUI = GetComponent<PlayerUI>();
+    }
+
+    private void Start()
+    {
+        GameManager.OnGameOver += GameManager_OnGameOver;
+    }
+
+    private void OnDestroy()
+    {
+        GameManager.OnGameOver -= GameManager_OnGameOver;
+    }
+
+    private void GameManager_OnGameOver()
+    {
+        ResetPlayer();
     }
 
     public void InitPlayer(Controller controller)
@@ -35,5 +53,12 @@ public class Player : MonoBehaviour
         {
             //ShowGameUI - Health bar etc.
         }
+    }
+
+    private void ResetPlayer()
+    {
+        Controller = null;
+        _playerNumber = 0;
+        _playerUI.ResetUI();
     }
 }

@@ -9,6 +9,7 @@ using AsyncOperation = UnityEngine.AsyncOperation;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
+    public static event Action OnGameOver;
     public GameState currentGameState { get; private set; }
     [SerializeField] private string levelToLoad;
     
@@ -55,14 +56,18 @@ public class GameManager : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                ChangeGameState(GameState.GameInProgress);
+                if (_players.Any(x=>x.HasController))
+                {
+                    ChangeGameState(GameState.GameInProgress);
+                }
+                
             }
         }
         if (currentGameState == GameState.GameOver)
         { 
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                ChangeGameState(GameState.MainMenu);
+                ShowMainMenu();
             }
         }
         
@@ -73,6 +78,14 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void ShowMainMenu()
+    {
+        int index = SceneManager.GetActiveScene().buildIndex;
+        SceneManager.UnloadSceneAsync(index);
+        OnGameOver?.Invoke();
+        ChangeGameState(GameState.MainMenu);
+    }
+    
     public void ChangeGameState(GameState newGameState)
     {
         currentGameState = newGameState;
@@ -139,7 +152,7 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator BeginGame()
     {
-        AsyncOperation operation = SceneManager.LoadSceneAsync(levelToLoad, LoadSceneMode.Single);
+        AsyncOperation operation = SceneManager.LoadSceneAsync(levelToLoad, LoadSceneMode.Additive);
         while (operation.isDone == false)
             yield return null;
 
