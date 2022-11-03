@@ -21,14 +21,14 @@ public class GameManager : MonoBehaviour
     private bool _isTimerRunning;
     private float _elapsedTime;
 
-    [SerializeField] private int shrinkAfterSeconds;
+    [SerializeField] public int shrinkAfterSeconds;
     
     public enum GameState
     {
         MainMenu,
         GameInProgress,
         ShrinkingArena,
-        [Description ("GameOver")] GameOver
+        GameOver
     }
     
     void Awake()
@@ -128,10 +128,10 @@ public class GameManager : MonoBehaviour
         _isTimerRunning = true;
         _elapsedTime = 0f;
 
-        StartCoroutine(UpdateTimer());
+        StartCoroutine(UpdateGamePlayingTimer());
     }
     
-    private IEnumerator UpdateTimer()
+    private IEnumerator UpdateGamePlayingTimer()
     {
         while (_isTimerRunning)
         {
