@@ -26,39 +26,31 @@ public class Weapon : MonoBehaviour
     public void Shoot()
     {
         Debug.Log("shot taken");
-        Vector3 targetPoint;
+        
 
-        Ray ray = PlayerSights.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
-        RaycastHit hit;
+        
         if (weaponData.currentAmmo > 0)
         {
             if (CanShoot())
             {
-                if (Physics.Raycast(ray, out hit))
-                {
-                    Debug.Log(hit.transform.name);
-                    targetPoint = hit.point;
-                }
-                else
-                {
-                    //fix this later
-                    targetPoint = ray.GetPoint(75);
-                }
 
-                Vector3 direction = targetPoint - attackPoint.position;
-               
-
+                
                 GameObject currentBullet = Instantiate(bullet,
                     attackPoint.position,
                     Quaternion.identity);
+                if (currentBullet != null)
+                {
+                    Debug.Log("bullet created");
+                }
 
-                currentBullet.transform.forward = direction.normalized;
 
 
 
                 weaponData.currentAmmo--;
                 timeSinceLastShot = 0;
                 OnWeaponShot();
+               
+                
             }
         }
 
