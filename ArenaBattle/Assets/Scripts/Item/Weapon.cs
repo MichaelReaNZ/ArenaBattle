@@ -10,7 +10,7 @@ public class Weapon : MonoBehaviour
     float timeSinceLastShot;
     public GameObject bullet;
 
-
+    
     //ref
     public string getName()
     {
