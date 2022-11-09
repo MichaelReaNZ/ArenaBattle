@@ -6,9 +6,9 @@ public class Projectile : MonoBehaviour
 {
     float speed = 5;
 
-void update()
+void Update()
     {
-        transform.position += transform.forward * Time.deltaTime * speed;
+        transform.position += Vector3.forward * Time.deltaTime * speed;
     }
 private void OnCollisionEnter(Collision collision)
     {

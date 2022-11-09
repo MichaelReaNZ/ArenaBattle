@@ -12,7 +12,10 @@ public class Weapon : MonoBehaviour
 
     
     //ref
-    public Camera PlayerSights;
+    public string getName()
+    {
+        return weaponData.name;
+    }
     public Transform attackPoint;
 
     private void Start()

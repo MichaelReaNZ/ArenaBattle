@@ -15,6 +15,6 @@ MonoBehaviour:
   name: Default Gun
   damage: 20
   maxDist: 100
-  currentAmmo: 978
+  currentAmmo: 999
   magazineSize: 999
   fireRate: 60
