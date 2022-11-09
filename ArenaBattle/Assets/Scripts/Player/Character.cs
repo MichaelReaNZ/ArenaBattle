@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 
 public class Character : MonoBehaviour
@@ -8,13 +9,31 @@ public class Character : MonoBehaviour
     private float _slerpRatio = 0.0f;
     [SerializeField] private Transform rotator;
     private Controller _controller;
+    private Weapon defaultWeapon;
     private Weapon currentWeapon;
     private bool canFire = true;
+
+    private void Start()
+    {
+    }
+
+    private IEnumerator WeaponPerishRoutine()
+    {
+        bool hasPerished = false;
+
+        while (currentWeapon != null && currentWeapon != defaultWeapon)
+        {
+            yield return new WaitForSeconds(currentWeapon.TimeToPerish);
+            Destroy(currentWeapon.gameObject);
+            currentWeapon = defaultWeapon;
+        }
+    }
 
     public void SetController(Controller controller)
     {
         _controller = controller;
     }
+    
 
     private void Update()
     {
@@ -42,6 +61,7 @@ public class Character : MonoBehaviour
         }
 
         currentWeapon = weapon;
+        StartCoroutine(WeaponPerishRoutine());
     }
 
     private void UseWeapon()
