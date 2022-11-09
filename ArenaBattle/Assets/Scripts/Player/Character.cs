@@ -4,9 +4,13 @@ using UnityEngine;
 public class Character : MonoBehaviour
 {
     [SerializeField] private float movementSpeed = 5f;
+    [SerializeField] private Transform weaponPoint;
     private float _slerpRatio = 0.0f;
     [SerializeField] private Transform rotator;
     private Controller _controller;
+    private Weapon currentWeapon;
+    private bool canFire = true;
+
     public void SetController(Controller controller)
     {
         _controller = controller;
@@ -22,11 +26,28 @@ public class Character : MonoBehaviour
         }
         rotator.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(rotationDir), _slerpRatio);
         _slerpRatio += Time.deltaTime;
-        /*if (rotationDir.magnitude > 0.1f)
+        
+        if (_controller.shootPressed && canFire)
         {
-             //Quaternion.LookRotation(rotationDir);
-            //rotator.forward = rotationDir * 360f;
-        }*/
+            UseWeapon();
+        }
     }
+
+    public void SetWeapon(Weapon weapon)
+    {
+
+        if (currentWeapon != null)
+        {
+            Destroy(currentWeapon.gameObject);
+        }
+
+        currentWeapon = weapon;
+    }
+
+    private void UseWeapon()
+    {
+        currentWeapon.Shoot();
+    }
+    
 }
 
