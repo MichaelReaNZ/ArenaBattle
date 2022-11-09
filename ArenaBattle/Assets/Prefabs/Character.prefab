@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2135853569167526211}
   - component: {fileID: 8828919182565196220}
   - component: {fileID: 4232165716906551436}
+  - component: {fileID: 7287054387510678001}
   m_Layer: 0
   m_Name: Weapon
   m_TagString: Untagged
@@ -98,6 +99,22 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &7287054387510678001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1718844567236601113}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea960badbb11bc4478fd507a7006ef54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponData: {fileID: 11400000, guid: 3124c2d4bdb26c549abdc0bf03244220, type: 2}
+  bullet: {fileID: 1986797371801372573, guid: 6f9a67915e9407348a55891e08998b2d, type: 3}
+  PlayerSights: {fileID: 0}
+  attackPoint: {fileID: 5893854342923150066}
 --- !u!1 &5133613903328224007
 GameObject:
   m_ObjectHideFlags: 0
@@ -206,6 +223,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8819955669879434482}
   - component: {fileID: 3483281354403497174}
+  - component: {fileID: -7471318575950458414}
   m_Layer: 0
   m_Name: Character
   m_TagString: Untagged
@@ -243,6 +261,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementSpeed: 5
   rotator: {fileID: 8979928896506878560}
+--- !u!114 &-7471318575950458414
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5181619328194291941}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea960badbb11bc4478fd507a7006ef54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponData: {fileID: 11400000, guid: 3124c2d4bdb26c549abdc0bf03244220, type: 2}
+  bullet: {fileID: 1986797371801372573, guid: 6f9a67915e9407348a55891e08998b2d, type: 3}
+  PlayerSights: {fileID: 0}
+  attackPoint: {fileID: 5893854342923150066}
 --- !u!1 &8425783964837969765
 GameObject:
   m_ObjectHideFlags: 0

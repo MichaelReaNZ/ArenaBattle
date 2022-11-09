@@ -7,15 +7,16 @@ using UnityEngine;
 public class WeaponData : ScriptableObject
 {
     [Header("Info")]
-    public new string name;
+    public new string name = "Default Gun";
 
     [Header("Projectile Data")]
-    public float damage;
-    public float maxDist;
+    public float damage = 10;
+    public float maxDist = 50 ;
 
     [Header("Gun Data")]
-    public int currentAmmo;
-    public int magazineSize;
-    public float fireRate;
+    public int currentAmmo = 999;
+    public int magazineSize = 999;
+    public float fireRate = 5;
+   
 
 }

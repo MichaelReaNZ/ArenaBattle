@@ -10,9 +10,12 @@ public class Weapon : MonoBehaviour
     float timeSinceLastShot;
     public GameObject bullet;
 
-    
+
     //ref
-    public Camera PlayerSights;
+    public string getName()
+    {
+        return weaponData.name;
+    }
     public Transform attackPoint;
 
     private void Start()
