@@ -10,7 +10,18 @@ public class Character : MonoBehaviour
     private Controller _controller;
     private Weapon currentWeapon;
     private bool canFire = true;
+    private ClassType _classType;
+    
 
+    
+    //enums for class
+    public enum ClassType
+    {
+        Brute,//More health
+        Speedy, //Moves faster
+        Balanced, //
+    }
+    
     public void SetController(Controller controller)
     {
         _controller = controller;
@@ -30,6 +41,28 @@ public class Character : MonoBehaviour
         if (_controller.shootPressed && canFire)
         {
             UseWeapon();
+        }
+    }
+    
+    //set class
+    public void SetClass(ClassType classType)
+    {
+        _classType = classType;
+        switch (classType)
+        {
+            case ClassType.Brute:
+                movementSpeed = 3f;
+                //change color of character to blue
+                transform.GetChild(0).GetComponent<Renderer>().material.color = Color.blue;
+                break;
+            case ClassType.Speedy:
+                movementSpeed = 7f;
+                transform.GetChild(0).GetComponent<Renderer>().material.color = Color.yellow;
+                break;
+            case ClassType.Balanced:
+                movementSpeed = 5f;
+                transform.GetChild(0).GetComponent<Renderer>().material.color = Color.green;
+                break;
         }
     }
 

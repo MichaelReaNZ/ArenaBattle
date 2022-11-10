@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
     public static event Action OnGameOver;
     public GameState currentGameState { get; private set; }
+    public GameModeEnum GameMode { get; private set; }
     [SerializeField] private string levelToLoad;
     
     public Player[] Players => _players;
@@ -20,8 +21,18 @@ public class GameManager : MonoBehaviour
     private TimeSpan _timePlaying;
     private bool _isTimerRunning;
     private float _elapsedTime;
+    
+    public Player winningPlayer;
 
     [SerializeField] public int shrinkAfterSeconds;
+    
+    //enum for game mode
+    public enum GameModeEnum
+    {
+        KingOfTheHill,
+        MostKills,
+        MostResources,
+    }
     
     public enum GameState
     {
@@ -54,6 +65,8 @@ public class GameManager : MonoBehaviour
     {
         if (currentGameState == GameState.MainMenu)
         {
+           
+            //Input.GetButtonDown("Start")|| 
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 if (_players.Any(x=>x.HasController))
@@ -65,6 +78,8 @@ public class GameManager : MonoBehaviour
         }
         if (currentGameState == GameState.GameOver)
         { 
+            //load UI to show winner
+            
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 ShowMainMenu();
@@ -98,10 +113,13 @@ public class GameManager : MonoBehaviour
                 break;
             }
             case GameState.GameInProgress:
-                StartCoroutine(BeginGame());
+                //TODO: Set a way to change game mode
+                StartCoroutine(BeginGame(GameModeEnum.MostKills));
                 break;
             case GameState.GameOver:
                 SceneManager.LoadScene("GameOver", LoadSceneMode.Single);
+                winningPlayer = GetWinningPlayer();
+               
                 break;
             case GameState.ShrinkingArena:
             {
@@ -123,6 +141,16 @@ public class GameManager : MonoBehaviour
         }
     }
     
+    public void ChangeClass(Controller controller, Character.ClassType classType)
+    {
+        //get the player from _players that has the controller
+        var player = _players.FirstOrDefault(x => x.Controller == controller);
+        if (player != null)
+        {
+            player.character.SetClass(classType);
+        }
+    }
+    
     public void StartTimer()
     {
         _isTimerRunning = true;
@@ -138,7 +166,7 @@ public class GameManager : MonoBehaviour
             _elapsedTime += Time.deltaTime;
             _timePlaying = TimeSpan.FromSeconds(_elapsedTime);
             string timePlayingStr = "Time: " + _timePlaying.ToString("mm':'ss'.'ff");
-            Debug.Log(timePlayingStr);
+//            Debug.Log(timePlayingStr);
             
             if (_timePlaying.Seconds >= shrinkAfterSeconds)
             {
@@ -150,8 +178,10 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private IEnumerator BeginGame()
+    private IEnumerator BeginGame(GameModeEnum gameMode)
     {
+        GameMode = gameMode;
+            
         AsyncOperation operation = SceneManager.LoadSceneAsync(levelToLoad, LoadSceneMode.Additive);
         while (operation.isDone == false)
             yield return null;
@@ -161,6 +191,29 @@ public class GameManager : MonoBehaviour
         foreach (var player in _players) player.InitInGameUI();
 
         StartTimer();
+    }
+    
+    //get winning player
+    private Player GetWinningPlayer()
+    {
+        Player winningPlayer = null;
+        switch (GameMode)
+        {
+            case GameModeEnum.KingOfTheHill:
+                //find player with highest score
+                winningPlayer = _players.OrderByDescending(x => x.timeAsKing).FirstOrDefault();
+                break;
+            case GameModeEnum.MostKills:
+                //find player with highest kills
+                winningPlayer = _players.OrderByDescending(x => x.numberOfKills).FirstOrDefault();
+                break;
+            case GameModeEnum.MostResources:
+                //find player with highest resources
+                winningPlayer = _players.OrderByDescending(x => x.numberOfResourcesCollected).FirstOrDefault();
+                break;
+        }
+
+        return winningPlayer;
     }
     
 }

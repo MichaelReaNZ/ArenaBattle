@@ -16,7 +16,7 @@ public class LevelController : MonoBehaviour
         var availableSpawns = _spawnPoints.ToList();
         foreach (var player in GameManager.Instance.Players)
         {
-            if (player.HasController && player.Character != null)
+            if (player.HasController && player.character != null)
             {
                 var spawn = availableSpawns[0];
                 spawn.IsSpawning = true;
