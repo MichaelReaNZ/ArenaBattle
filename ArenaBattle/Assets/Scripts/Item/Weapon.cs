@@ -37,12 +37,12 @@ public class Weapon : MonoBehaviour
             if (CanShoot())
             {
 
-                
-                GameObject currentBullet = Instantiate(bullet,
-                    attackPoint.position,
-                    Quaternion.identity);
+                //set object to pooled object
+                GameObject currentBullet = Pool.Get<Projectile>();
                 if (currentBullet != null)
-                {
+                {	currentBullet.transform.position = attackPoint.position;
+					//sets bullet to have no rotation
+					currentBullet.transform.rotation = Quaternion.identity;
                     Debug.Log("bullet created");
                 }
 
@@ -51,7 +51,7 @@ public class Weapon : MonoBehaviour
 
                 weaponData.currentAmmo--;
                 timeSinceLastShot = 0;
-                OnWeaponShot();
+               
                
                 
             }
@@ -64,8 +64,5 @@ public class Weapon : MonoBehaviour
         timeSinceLastShot += Time.deltaTime;
     }
 
-   private void OnWeaponShot()
-    {
-       // throw new NotImplementedException();
-    }
+
 }

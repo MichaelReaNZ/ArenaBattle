@@ -12,7 +12,7 @@ void Update()
     }
 private void OnCollisionEnter(Collision collision)
     {
-        Destroy(gameObject);
-        Debug.Log("object destroyed");
+        gameObject.SetActive(false);
+        Debug.Log("object inactive");
     }
 }
