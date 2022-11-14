@@ -23,6 +23,7 @@ public class GameManager : MonoBehaviour
     private float _elapsedTime;
     
     public Player winningPlayer;
+    public Player currentKingOfTheHillPlayer;
 
     [SerializeField] public int shrinkAfterSeconds;
     
