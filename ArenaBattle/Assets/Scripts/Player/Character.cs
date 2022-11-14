@@ -2,8 +2,13 @@
 using System.Collections;
 using UnityEngine;
 
-public class Character : MonoBehaviour
+public class Character : MonoBehaviour, ITakeDamage
 {
+    public Character(Player player)
+    {
+        this.player = player;
+    }
+    
     [SerializeField] private float movementSpeed = 5f;
     [SerializeField] private Transform weaponPoint;
     private float _slerpRatio = 0.0f;
@@ -12,8 +17,9 @@ public class Character : MonoBehaviour
     private Weapon defaultWeapon;
     private Weapon currentWeapon;
     private bool canFire = true;
+    private float health = 100f;
     private ClassType _classType;
-    
+    private Player player;
 
     
     //enums for class
@@ -90,7 +96,7 @@ public class Character : MonoBehaviour
         }
 
         currentWeapon = weapon;
-        
+        currentWeapon.SetPlayer(player);
         StartCoroutine(WeaponPerishRoutine());
     }
 
@@ -98,6 +104,15 @@ public class Character : MonoBehaviour
     {
         currentWeapon.Shoot();
     }
-    
+
+    public void TakeDamage(float amount, Player player)
+    {
+        health -= amount;
+        if (health <= 0)
+        {
+            player.IncrementKills();
+            //Kill self
+        }
+    }
 }
 

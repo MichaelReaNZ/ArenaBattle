@@ -52,6 +52,7 @@ public class Player : MonoBehaviour
     public void SpawnCharacter(Vector3 pos)
     {
         var character = Instantiate(this.character, pos, Quaternion.identity);
+        
         character.SetController(Controller);
         _playerUI.DisableInitText();
         
@@ -77,4 +78,6 @@ public class Player : MonoBehaviour
         _playerNumber = 0;
         _playerUI.ResetUI();
     }
+
+    public void IncrementKills() => numberOfKills++;
 }

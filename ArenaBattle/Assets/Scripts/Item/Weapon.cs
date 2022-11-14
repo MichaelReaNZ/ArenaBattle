@@ -11,8 +11,9 @@ public class Weapon : MonoBehaviour
     public float TimeToPerish => weaponData.timeToPerish;
     float timeSinceLastShot;
     public PooledObj bullet;
+    private Player player;
 
-    
+    public void SetPlayer(Player player) => this.player = player;
     //ref
     public string getName()
     {
@@ -43,6 +44,7 @@ public class Weapon : MonoBehaviour
                 //set object to pooled object
                 var currentBullet = bullet.Get<Projectile>();
                 currentBullet.SetDamage(weaponData.damage);
+                currentBullet.SetOwner(player);
                 if (currentBullet != null)
                 {	currentBullet.transform.position = attackPoint.position;
 					//sets bullet to have no rotation

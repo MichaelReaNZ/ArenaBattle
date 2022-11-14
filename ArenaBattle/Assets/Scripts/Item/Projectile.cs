@@ -10,11 +10,7 @@ public class Projectile : PooledObj
     float speed = 5;
     private Player owner;
 
-
-    private void OnEnable()
-    {
-        throw new NotImplementedException();
-    }
+    public void SetOwner(Player player) => owner = player;
 
     void Update()
     {
