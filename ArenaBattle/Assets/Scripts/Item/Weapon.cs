@@ -43,8 +43,9 @@ public class Weapon : MonoBehaviour
 
                 //set object to pooled object
                 var currentBullet = bullet.Get<Projectile>();
-                currentBullet.SetDamage(weaponData.damage);
                 currentBullet.SetOwner(player);
+                currentBullet.SetDamage(player.GetDamageMultiplier() * weaponData.damage);
+
                 if (currentBullet != null)
                 {	currentBullet.transform.position = attackPoint.position;
 					//sets bullet to have no rotation

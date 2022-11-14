@@ -18,7 +18,7 @@ public class Character : MonoBehaviour, ITakeDamage
     private Weapon currentWeapon;
     private bool canFire = true;
     private float health = 100f;
-    private ClassType _classType;
+    public ClassType _classType;
     private Player player;
 
     
@@ -75,12 +75,15 @@ public class Character : MonoBehaviour, ITakeDamage
                 movementSpeed = 3f;
                 //change color of character to blue
                 transform.GetChild(0).GetComponent<Renderer>().material.color = Color.blue;
+                health = 150f;
                 break;
             case ClassType.Speedy:
                 movementSpeed = 7f;
+                health = 50f;
                 transform.GetChild(0).GetComponent<Renderer>().material.color = Color.yellow;
                 break;
             case ClassType.Balanced:
+                health = 100f;
                 movementSpeed = 5f;
                 transform.GetChild(0).GetComponent<Renderer>().material.color = Color.green;
                 break;
@@ -96,6 +99,7 @@ public class Character : MonoBehaviour, ITakeDamage
         }
 
         currentWeapon = weapon;
+
         currentWeapon.SetPlayer(player);
         StartCoroutine(WeaponPerishRoutine());
     }

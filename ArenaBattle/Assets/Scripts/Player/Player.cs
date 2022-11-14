@@ -49,6 +49,18 @@ public class Player : MonoBehaviour
 
     }
 
+    public int GetDamageMultiplier()
+    {
+        //switch based on class
+        return character._classType switch
+        {
+            Character.ClassType.Balanced => 1,
+            Character.ClassType.Brute => 2,
+            Character.ClassType.Speedy => 3,
+            _ => 1
+        };
+    }
+
     public void SpawnCharacter(Vector3 pos)
     {
         var character = Instantiate(this.character, pos, Quaternion.identity);
