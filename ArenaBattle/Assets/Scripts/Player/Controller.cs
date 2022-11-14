@@ -7,11 +7,15 @@ public class Controller : MonoBehaviour
     public bool IsAssigned { get; set; }
     public bool shoot;
     public bool shootPressed;
+    
+    
+    public bool changeWeaponPressed;   
     public float horizontal;
     public float vertical;
     public float rHorizontal;
     public float rVertical;
     
+    private string _switchButton;
     private string _shootButton;
     private string _horizontalAxis;
     private string _verticalAxis;
@@ -42,6 +46,13 @@ public class Controller : MonoBehaviour
 
     private void Update()
     {
+        
+        //switches weapon
+        if (!string.IsNullOrEmpty(_switchButton))
+        {
+            changeWeaponPressed = Input.GetButtonDown(_switchButton);
+        }
+        
         if (!string.IsNullOrEmpty(_shootButton))
         {
             shoot = Input.GetButton(_shootButton);
@@ -78,6 +89,7 @@ public class Controller : MonoBehaviour
         _rotationHorizontal = "rHorizontal" + Index;
         _rotationVertical = "rVertical" + Index;
         gameObject.name = "Controller" + Index;
+        _switchButton = "Switch" + Index;
     }
     
     

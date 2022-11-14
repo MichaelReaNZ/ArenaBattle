@@ -51,33 +51,25 @@ public class Character : MonoBehaviour, ITakeDamage
         _controller = controller;
     }
     
-    //removes currentWeapon
-    public void DiscardWeapon()
-    {   
-        if (currentWeapon != defaultWeapon)
-        {
-            Debug.Log("Discarding Weapon");
-            Destroy(currentWeapon.gameObject);
-            currentWeapon = defaultWeapon;
-            currentWeapon.SetPlayer(player);
-            betterWeapon = null;
-        }
-    }
 //changes between weapons
     public void SwitchWeapon()
-    {   
-        if (betterWeapon != null)
+    {
+        if (_controller.changeWeaponPressed)
         {
-            Debug.Log("Switching Weapons");
-            if (currentWeapon != defaultWeapon)
+            if (betterWeapon != null)
             {
-                currentWeapon = defaultWeapon;
-            }else if (currentWeapon != betterWeapon)
-            {
-                currentWeapon = betterWeapon;
+                Debug.Log("Switching Weapons");
+                if (currentWeapon != defaultWeapon)
+                {
+                    currentWeapon = defaultWeapon;
+                }
+                else if (currentWeapon != betterWeapon)
+                {
+                    currentWeapon = betterWeapon;
+                }
             }
         }
-        
+
     }
     
     
@@ -132,11 +124,8 @@ public class Character : MonoBehaviour, ITakeDamage
         }
 
         currentWeapon = weapon;
-<<<<<<< Updated upstream
-
-=======
         betterWeapon = weapon;
->>>>>>> Stashed changes
+
         currentWeapon.SetPlayer(player);
         StartCoroutine(WeaponPerishRoutine());
     }
