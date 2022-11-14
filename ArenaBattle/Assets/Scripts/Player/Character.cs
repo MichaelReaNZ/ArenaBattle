@@ -16,6 +16,9 @@ public class Character : MonoBehaviour, ITakeDamage
     private Controller _controller;
     private Weapon defaultWeapon;
     private Weapon currentWeapon;
+    
+    //holds any weapon that isnt the default weapon
+    private Weapon betterWeapon = null;
     private bool canFire = true;
     private float health = 100f;
     public ClassType _classType;
@@ -39,6 +42,7 @@ public class Character : MonoBehaviour, ITakeDamage
                 yield return new WaitForSeconds(currentWeapon.TimeToPerish);
                 Destroy(currentWeapon.gameObject);
                 currentWeapon = defaultWeapon;
+                betterWeapon = null;
         }
     }
     
@@ -47,7 +51,36 @@ public class Character : MonoBehaviour, ITakeDamage
         _controller = controller;
     }
     
-
+    //removes currentWeapon
+    public void DiscardWeapon()
+    {   
+        if (currentWeapon != defaultWeapon)
+        {
+            Debug.Log("Discarding Weapon");
+            Destroy(currentWeapon.gameObject);
+            currentWeapon = defaultWeapon;
+            currentWeapon.SetPlayer(player);
+            betterWeapon = null;
+        }
+    }
+//changes between weapons
+    public void SwitchWeapon()
+    {   
+        if (betterWeapon != null)
+        {
+            Debug.Log("Switching Weapons");
+            if (currentWeapon != defaultWeapon)
+            {
+                currentWeapon = defaultWeapon;
+            }else if (currentWeapon != betterWeapon)
+            {
+                currentWeapon = betterWeapon;
+            }
+        }
+        
+    }
+    
+    
     private void Update()
     {
         Vector3 dir = _controller.GetMovementDirection();
@@ -99,7 +132,11 @@ public class Character : MonoBehaviour, ITakeDamage
         }
 
         currentWeapon = weapon;
+<<<<<<< Updated upstream
 
+=======
+        betterWeapon = weapon;
+>>>>>>> Stashed changes
         currentWeapon.SetPlayer(player);
         StartCoroutine(WeaponPerishRoutine());
     }

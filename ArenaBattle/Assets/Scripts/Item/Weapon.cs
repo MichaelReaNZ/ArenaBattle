@@ -40,7 +40,7 @@ public class Weapon : MonoBehaviour
         {
             if (CanShoot())
             {
-
+               
                 //set object to pooled object
                 var currentBullet = bullet.Get<Projectile>();
                 currentBullet.SetOwner(player);
@@ -51,7 +51,7 @@ public class Weapon : MonoBehaviour
 					//sets bullet to have no rotation
 					currentBullet.transform.rotation = Quaternion.identity;
                     Debug.Log("bullet created");
-                }
+                }else{Debug.Log("bullet not created");}
                 
                 weaponData.currentAmmo--;
                 timeSinceLastShot = 0;
