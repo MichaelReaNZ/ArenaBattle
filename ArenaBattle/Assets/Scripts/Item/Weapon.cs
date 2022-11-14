@@ -6,9 +6,11 @@ public class Weapon : MonoBehaviour
 {   
     [Header("References")]
     [SerializeField] WeaponData weaponData;
+    
 
+    public float TimeToPerish => weaponData.timeToPerish;
     float timeSinceLastShot;
-    public GameObject bullet;
+    public PooledObj bullet;
 
     
     //ref
@@ -20,6 +22,7 @@ public class Weapon : MonoBehaviour
 
     private void Start()
     {
+        
         PlayerShoot.shootInput += Shoot;
        
     }
@@ -38,22 +41,17 @@ public class Weapon : MonoBehaviour
             {
 
                 //set object to pooled object
-                GameObject currentBullet = Pool.Get<Projectile>();
+                var currentBullet = bullet.Get<Projectile>();
+                currentBullet.SetDamage(weaponData.damage);
                 if (currentBullet != null)
                 {	currentBullet.transform.position = attackPoint.position;
 					//sets bullet to have no rotation
 					currentBullet.transform.rotation = Quaternion.identity;
                     Debug.Log("bullet created");
                 }
-
-
-
-
+                
                 weaponData.currentAmmo--;
                 timeSinceLastShot = 0;
-               
-               
-                
             }
         }
 

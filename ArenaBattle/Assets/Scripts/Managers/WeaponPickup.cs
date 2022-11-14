@@ -28,7 +28,7 @@ public class WeaponPickup : MonoBehaviour
     {
         if (other.GetComponent<Character>())
         {
-            //other.GetComponent<Character>().SetWeapon(currentWeapon);
+            other.GetComponent<Character>().SetWeapon(currentWeapon);
             currentWeapon = null;
         }
     }

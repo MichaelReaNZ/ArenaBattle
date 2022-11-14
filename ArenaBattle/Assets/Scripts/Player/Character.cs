@@ -23,6 +23,18 @@ public class Character : MonoBehaviour
         Speedy, //Moves faster
         Balanced, //
     }
+
+    private IEnumerator WeaponPerishRoutine()
+    {
+        bool hasPerished = false;
+    
+        while (currentWeapon != null && currentWeapon != defaultWeapon) 
+        {
+                yield return new WaitForSeconds(currentWeapon.TimeToPerish);
+                Destroy(currentWeapon.gameObject);
+                currentWeapon = defaultWeapon;
+        }
+    }
     
     public void SetController(Controller controller)
     {
@@ -78,6 +90,7 @@ public class Character : MonoBehaviour
         }
 
         currentWeapon = weapon;
+        
         StartCoroutine(WeaponPerishRoutine());
     }
 
