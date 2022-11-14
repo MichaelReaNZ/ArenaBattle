@@ -1,16 +1,23 @@
 ﻿using System;
+using System.Linq;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class Player : MonoBehaviour
 {
     [SerializeField] private int _playerNumber;
     public Controller Controller { get; private set; }
-    public Character Character;
+    public Character character;
 
     private PlayerUI _playerUI;
     
     public bool HasController => Controller != null;
     public int PlayerNumber => _playerNumber;
+    
+    public int numberOfKills = 0;
+    public TimeSpan timeAsKing = TimeSpan.Zero;
+    public bool isKing = false;
+    public int numberOfResourcesCollected = 0;
 
     private void Awake()
     {
@@ -37,19 +44,28 @@ public class Player : MonoBehaviour
         Controller = controller;
         gameObject.name = $"Player {_playerNumber} - {controller.gameObject.name}";
         _playerUI.HandleInitPlayer();
+        
+     
+
     }
 
     public void SpawnCharacter(Vector3 pos)
     {
-        var character = Instantiate(Character, pos, Quaternion.identity);
+        var character = Instantiate(this.character, pos, Quaternion.identity);
         character.SetController(Controller);
         _playerUI.DisableInitText();
+        
+        //get the highest enum value of ClassType
+        int maxClassType = (int)(Character.ClassType) Enum.GetValues(typeof(Character.ClassType)).Cast<Character.ClassType>().Max();
+        //get a random class type between 0 and the highest enum value
+        var randomClassType = (Character.ClassType) Random.Range(0, maxClassType);
+        character.SetClass(randomClassType);
     }
 
     public void InitInGameUI()
     {
         _playerUI.DisableInitText();
-        if (HasController && Character!= null)
+        if (HasController && character!= null)
         {
             //ShowGameUI - Health bar etc.
         }

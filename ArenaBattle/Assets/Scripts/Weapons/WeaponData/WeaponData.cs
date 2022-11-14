@@ -10,7 +10,7 @@ public class WeaponData : ScriptableObject
     public new string name = "Default Gun";
 
     [Header("Projectile Data")]
-    public float damage = 10
+    public float damage = 10;
 
     [Header("Gun Data")]
     public int currentAmmo = 999;
