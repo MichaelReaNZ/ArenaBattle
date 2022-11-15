@@ -10,7 +10,7 @@ public class LevelController : MonoBehaviour
     {
         _spawnPoints = FindObjectsOfType<SpawnPoint>();
     }
-
+//spawns players into arena
     public void SpawnPlayers()
     {
         var availableSpawns = _spawnPoints.ToList();

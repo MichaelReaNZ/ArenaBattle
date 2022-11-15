@@ -48,7 +48,7 @@ public class Player : MonoBehaviour
      
 
     }
-
+	//returns damage muliplier variable
     public int GetDamageMultiplier()
     {
         //switch based on class
@@ -60,9 +60,9 @@ public class Player : MonoBehaviour
             _ => 1
         };
     }
-
+	//spawns character at a position
     public void SpawnCharacter(Vector3 pos)
-    {
+    {Debug.Log("Creating Character");
         var character = Instantiate(this.character, pos, Quaternion.identity);
         
         character.SetController(Controller);
@@ -74,12 +74,13 @@ public class Player : MonoBehaviour
         var randomClassType = (Character.ClassType) Random.Range(0, maxClassType);
         character.SetClass(randomClassType);
     }
-
+	//outputs game UI
     public void InitInGameUI()
     {
         _playerUI.DisableInitText();
         if (HasController && character!= null)
         {
+			
             //ShowGameUI - Health bar etc.
         }
     }

@@ -47,39 +47,39 @@ public class Controller : MonoBehaviour
     private void Update()
     {
         
-        //switches weapon
+        //get switch weapon button
         if (!string.IsNullOrEmpty(_switchButton))
         {
             changeWeaponPressed = Input.GetButtonDown(_switchButton);
         }
-        
+        //gets shoot button
         if (!string.IsNullOrEmpty(_shootButton))
         {
             shoot = Input.GetButton(_shootButton);
             shootPressed = Input.GetButtonDown(_shootButton);
         }
-
+		//gets horizontal axis movement
         if (!string.IsNullOrEmpty(_horizontalAxis))
         {
             horizontal = Input.GetAxis(_horizontalAxis);
         }
-
+//gets vertical axis movement
         if (!string.IsNullOrEmpty(_verticalAxis))
         {
             vertical = Input.GetAxis(_verticalAxis);
         }
-
+	//gets horizontal axis rotation
         if (!string.IsNullOrEmpty(_rotationHorizontal))
         {
             rHorizontal = Input.GetAxis(_rotationHorizontal);
         }
-        
+        //get vertical axis rotation
         if (!string.IsNullOrEmpty(_rotationVertical))
         {
             rVertical = Input.GetAxis(_rotationVertical);
         }
     }
-
+	//sets indexes for buttons
     public void SetIndex(int index)
     {
         Index = index;
@@ -93,12 +93,12 @@ public class Controller : MonoBehaviour
     }
     
     
-
+	//returns movement direction
     public Vector3 GetMovementDirection()
     {
          return new Vector3(horizontal, 0,-vertical);
     }
-
+	//returns facing direction
     public Vector3 GetFacingDirection()
     {
         return new Vector3(rHorizontal/5, 0, -rVertical/5);

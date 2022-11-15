@@ -16,7 +16,7 @@ public class WeaponPickup : MonoBehaviour
     {
         GetComponent<BoxCollider>().isTrigger = true;
     }
-
+    //begins spawning items when weaponPickup is started
     private void Start()
     {
         spawnItems = true;
@@ -46,11 +46,11 @@ public class WeaponPickup : MonoBehaviour
             {
                 //int rand = Random.Range(0, potentialWeapons.Length - 1);
                 int rand = Random.Range(0, 2);
-//spawns weapons randomly
+                //spawns weapons randomly
                 switch (rand)
-                {
+                {//creates weapon based on rand number
                     case 0:
-							Debug.Log("Assinged Machine Gun");
+							Debug.Log("Assigned Machine Gun");
                         currentWeapon = m_factory.getInstance();
                         break;
                     case 1:
@@ -66,7 +66,7 @@ Debug.Log("Assigned Rifle");
                         currentWeapon = currentWeapon;
                         break;
                 }
-                //currentWeapon = potentialWeapons[rand];
+              
             }
         }
     }
