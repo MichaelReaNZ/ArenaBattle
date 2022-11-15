@@ -283,7 +283,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerNumber: 0
-  Character: {fileID: 0}
+  character: {fileID: 3483281354403497174, guid: 44bdbaa0c2f29c843a4788397082704b, type: 3}
+  numberOfKills: 0
+  isKing: 0
+  numberOfResourcesCollected: 0
 --- !u!114 &523580899946199588
 MonoBehaviour:
   m_ObjectHideFlags: 0

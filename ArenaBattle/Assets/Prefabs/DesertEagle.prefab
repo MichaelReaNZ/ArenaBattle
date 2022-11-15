@@ -78,7 +78,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponData: {fileID: 11400000, guid: 3d308385ccf48e8469f5714e8ca91403, type: 2}
-  bullet: {fileID: 1986797371801372573, guid: 6f9a67915e9407348a55891e08998b2d, type: 3}
+  bullet: {fileID: 1986797371801372551, guid: 6f9a67915e9407348a55891e08998b2d, type: 3}
   attackPoint: {fileID: 6249463493656307304}
 --- !u!1001 &6249463493475899701
 PrefabInstance:
