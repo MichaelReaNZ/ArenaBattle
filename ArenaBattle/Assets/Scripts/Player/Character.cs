@@ -7,6 +7,10 @@ public class Character : MonoBehaviour, ITakeDamage
     public Character(Player player)
     {
         this.player = player;
+        if (this.player == null)
+        {
+            Debug.Log("character player null");
+        }
     }
     //initialises movement speed and weapon point
     [SerializeField] private float movementSpeed = 5f;
@@ -15,7 +19,7 @@ public class Character : MonoBehaviour, ITakeDamage
     [SerializeField] private Transform rotator;
     private Controller _controller;
     //current weapon is weapon being used, default weapon is the weapon the user starts with 
-    private Weapon defaultWeapon;
+    [SerializeField] private Weapon defaultWeapon;
     private Weapon currentWeapon;
     
     //holds any weapon that isnt the default weapon
@@ -43,6 +47,14 @@ public class Character : MonoBehaviour, ITakeDamage
         Speedy, //Moves faster
         Balanced, //
     }
+
+    private void Start()
+    {
+        
+        currentWeapon = defaultWeapon;
+        currentWeapon.SetPlayer(player);
+    }
+
     //Takes in Time to perish from weapon, then destroys weapon if time to perish is equal to zero
     private IEnumerator WeaponPerishRoutine()
     {
@@ -53,6 +65,7 @@ public class Character : MonoBehaviour, ITakeDamage
                 yield return new WaitForSeconds(currentWeapon.TimeToPerish);
                 Destroy(currentWeapon.gameObject);
                 currentWeapon = defaultWeapon;
+                currentWeapon.SetPlayer(player);
                 betterWeapon = null;
         }
         Debug.Log(currentWeapon.name + ":  Weapon has perished");
@@ -81,6 +94,7 @@ public class Character : MonoBehaviour, ITakeDamage
                 {
                     currentWeapon = betterWeapon;
                 }
+                currentWeapon.SetPlayer(player);
             }
         }
 
@@ -94,12 +108,12 @@ public class Character : MonoBehaviour, ITakeDamage
         if (dir.magnitude > 0.25f)
         {
             transform.position += dir * Time.deltaTime * movementSpeed;
-            Debug.Log("Moving Player");
+            //Debug.Log("Moving Player");
         }
-        rotator.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(rotationDir), _slerpRatio);
-        _slerpRatio += Time.deltaTime;
+        //rotator.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(rotationDir), _slerpRatio);
+        //_slerpRatio += Time.deltaTime;
         
-        if (_controller.shootPressed && canFire)
+        if (_controller.shootPressed) //&& canFire)
         {
             Debug.Log("Shot Pressed");
             UseWeapon();
@@ -134,7 +148,7 @@ public class Character : MonoBehaviour, ITakeDamage
     //sets the player's weapon
     public void SetWeapon(Weapon weapon)
     {
-        Debug.Log("Setting Weapom");
+        Debug.Log("Setting Weapon");
         if (currentWeapon != null)
         {
             Destroy(currentWeapon.gameObject);
@@ -144,6 +158,7 @@ public class Character : MonoBehaviour, ITakeDamage
         betterWeapon = weapon;
 
         currentWeapon.SetPlayer(player);
+        currentWeapon.transform.position = weaponPoint.position;
         StartCoroutine(WeaponPerishRoutine());
     }
 //calls the shoot commands from weapon

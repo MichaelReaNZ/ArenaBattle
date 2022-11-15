@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponData: {fileID: 11400000, guid: 4541ac1034ed73f47adaf22498d43483, type: 2}
-  bullet: {fileID: 1986797371801372573, guid: 6f9a67915e9407348a55891e08998b2d, type: 3}
+  bullet: {fileID: 1986797371801372551, guid: 6f9a67915e9407348a55891e08998b2d, type: 3}
   attackPoint: {fileID: 662010811970833138}
 --- !u!1 &662010811970833137
 GameObject:

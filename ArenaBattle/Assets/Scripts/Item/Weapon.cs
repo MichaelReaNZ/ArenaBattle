@@ -40,10 +40,15 @@ public class Weapon : MonoBehaviour
         Debug.Log("shot taken");
         if (weaponData.currentAmmo > 0)
         {
-            if (CanShoot())
-            {
+            //if (CanShoot())
+            //{
                
                 //set object to pooled object
+
+                if (player == null)
+                {
+                    Debug.Log("player null");
+                }
                 var currentBullet = bullet.Get<Projectile>();
                 currentBullet.SetOwner(player);
                 currentBullet.SetDamage(player.GetDamageMultiplier() * weaponData.damage);
@@ -57,7 +62,7 @@ public class Weapon : MonoBehaviour
                 //reduces ammo after shot taken
                 weaponData.currentAmmo--;
                 timeSinceLastShot = 0;
-            }
+           // }
         }
 
     }
