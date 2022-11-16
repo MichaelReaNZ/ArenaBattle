@@ -67,7 +67,14 @@ public class Weapon : MonoBehaviour
                 //reduces ammo after shot taken
                 weaponData.currentAmmo--;
                 timeSinceLastShot = 0;
-           // }
+
+            }
+        else
+        {
+            Debug.Log("out of ammo");
+
+    
+
         }
 
     }

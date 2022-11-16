@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -17,7 +17,7 @@ public class Character : MonoBehaviour, ITakeDamage
     //holds any weapon that isnt the default weapon
     private Weapon betterWeapon = null;
    
-    //if canfire == true, allows the weapon to fire a projectile
+    //if canfire == true, allows the player to fire a projectile
     private bool canFire = true;
     //sets player health
     private float health = 100f;
@@ -83,21 +83,36 @@ public class Character : MonoBehaviour, ITakeDamage
             currentWeapon = betterWeapon;
         }
         Debug.Log("Switching Weapons to " + currentWeapon.getName());
+    
+    //get player 
+    public Player GetPlayer()
+    {
+        return player;
+    }
+    
     }
     
     //moves the player if movement if pressed, shoots gun if the shoot button is pressed and canFire == true
+    //bool to represent if player has moved
+    bool playerMoved = false;
     private void Update()
     {
+       
         Vector3 dir = _controller.GetMovementDirection();
         Vector3 rotationDir = _controller.GetFacingDirection();
         if (dir.magnitude > 0.25f)
-        {
+        {//if player hasnt moved, outputs message, then sets playerMoved to true
+            if (playerMoved == false)
+            {
+                Debug.Log("Player Moved");
+                playerMoved = true;
+            }
             transform.position += dir * Time.deltaTime * movementSpeed;
         }
 
         if (_controller.shootPressed)
         {
-            Debug.Log("Shot Pressed");
+            Debug.Log("Shoot Pressed");
             UseWeapon();
         }
 
@@ -162,7 +177,10 @@ public class Character : MonoBehaviour, ITakeDamage
         Debug.Log("Character's Health is: " + health);
         if (health <= 0)
         {
-            enemy.IncrementKills();
+            if(enemy != null)
+            {
+                enemy.IncrementKills();
+            }
             //Kill character
             deaths = deaths + 1;
             health = 100f;
