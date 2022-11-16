@@ -97,7 +97,12 @@ public class Character : MonoBehaviour, ITakeDamage
                 currentWeapon.SetPlayer(player);
             }
         }
-
+    }
+    
+    //get player 
+    public Player GetPlayer()
+    {
+        return player;
     }
     
     //moves the player if movement if pressed, shoots gun if the shoot button is pressed and canFire == true
