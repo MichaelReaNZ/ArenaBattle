@@ -31,6 +31,10 @@ public class Character : MonoBehaviour, ITakeDamage
     //death count
     public int deaths = 0;
 
+    public Player GetPlayer()
+    {
+        return player;
+    }
     
     //enums for class
     public enum ClassType
@@ -85,11 +89,6 @@ public class Character : MonoBehaviour, ITakeDamage
         Debug.Log("Switching Weapons to " + currentWeapon.getName());
     
     //get player 
-    public Player GetPlayer()
-    {
-        return player;
-    }
-    
     }
     
     //moves the player if movement if pressed, shoots gun if the shoot button is pressed and canFire == true

@@ -38,7 +38,7 @@ float backWallPosZ;
 
         void UpdateTimer()
         {
-            if (GameManager.Instance.GameMode == GameManager.GameModeEnum.MostResources)
+            if (GameManager.Instance.GameMode == GameModeEnum.MostResources)
             {
                 if (currentTimeBetweenSpawn > 0)
                 {

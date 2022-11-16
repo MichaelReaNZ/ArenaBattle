@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 867925639b8180742a0c64ed603a187e, type: 3}
   m_Name: MachineGun
   m_EditorClassIdentifier: 
-  name: Default Gun
+  name: Machine Gun
   damage: 20
   currentAmmo: 200
   magazineSize: 200
