@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -106,21 +106,31 @@ public class Character : MonoBehaviour, ITakeDamage
     }
     
     //moves the player if movement if pressed, shoots gun if the shoot button is pressed and canFire == true
+    //bool to represent if player has moved
+    bool playerMoved = false;
     private void Update()
     {
+       
         Vector3 dir = _controller.GetMovementDirection();
         Vector3 rotationDir = _controller.GetFacingDirection();
         if (dir.magnitude > 0.25f)
-        {
+        {//if player hasnt moved, outputs message, then sets playerMoved to true
+            if (playerMoved == false)
+            {
+                Debug.Log("Player Moved");
+                playerMoved = true;
+            }
             transform.position += dir * Time.deltaTime * movementSpeed;
+
             //Debug.Log("Moving Player");
+
         }
         //rotator.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(rotationDir), _slerpRatio);
         //_slerpRatio += Time.deltaTime;
         
         if (_controller.shootPressed) //&& canFire)
         {
-            Debug.Log("Shot Pressed");
+            Debug.Log("Shoot Pressed");
             UseWeapon();
         }
     }
