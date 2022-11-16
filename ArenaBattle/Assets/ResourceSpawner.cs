@@ -38,20 +38,23 @@ float backWallPosZ;
 
         void UpdateTimer()
         {
-            if (currentTimeBetweenSpawn > 0)
+            if (GameManager.Instance.GameMode == GameManager.GameModeEnum.MostResources)
             {
-                currentTimeBetweenSpawn -= Time.deltaTime;
-            }
-            else
-            {
-                SpawnObject();
-                currentTimeBetweenSpawn = timeBetweenSpawn;
-                //add some variation to the time between spawn
-                timeBetweenSpawn = timeBetweenSpawn * UnityEngine.Random.Range(0.9f, 1.1f);
+                if (currentTimeBetweenSpawn > 0)
+                {
+                    currentTimeBetweenSpawn -= Time.deltaTime;
+                }
+                else
+                {
+                    SpawnObject();
+                    currentTimeBetweenSpawn = timeBetweenSpawn;
+                    //add some variation to the time between spawn
+                    timeBetweenSpawn = timeBetweenSpawn * UnityEngine.Random.Range(0.9f, 1.1f);
+                }
             }
         }
 
-         void SpawnObject()
+        void SpawnObject()
         {
             //spawn radomly in the area
             Vector3 spawnPosition = new Vector3(UnityEngine.Random.Range(leftWallPosX, rightWallPosX), 60, UnityEngine.Random.Range(frontWallPosZ, backWallPosZ));

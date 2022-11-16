@@ -105,6 +105,12 @@ public class Character : MonoBehaviour, ITakeDamage
         return player;
     }
     
+    //sets the player
+    public void SetPlayer(Player player)
+    {
+        this.player = player;
+    }
+    
     //moves the player if movement if pressed, shoots gun if the shoot button is pressed and canFire == true
     //bool to represent if player has moved
     bool playerMoved = false;

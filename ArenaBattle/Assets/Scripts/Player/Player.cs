@@ -75,6 +75,8 @@ public class Player : MonoBehaviour
         //get a random class type between 0 and the highest enum value
         var randomClassType = (Character.ClassType) Random.Range(0, maxClassType);
         character.SetClass(randomClassType);
+        
+        character.SetPlayer(this);
     }
 	//outputs game UI
     public void InitInGameUI()

@@ -7,6 +7,17 @@ public class KingOfTheHill : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if (GameManager.Instance.GameMode == GameManager.GameModeEnum.KingOfTheHill)
+        {
+            Debug.Log("King of the Hill");
+            transform.gameObject.SetActive(true);
+        }
+        else
+        {
+            //hide hill object
+            transform.gameObject.SetActive(false);
+        }
+       
     }
 
     // Update is called once per frame
