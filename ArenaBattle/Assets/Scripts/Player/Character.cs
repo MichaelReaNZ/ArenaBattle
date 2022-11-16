@@ -25,7 +25,7 @@ public class Character : MonoBehaviour, ITakeDamage
     //holds any weapon that isnt the default weapon
     private Weapon betterWeapon = null;
    
-    //if canfire == true, allows the weapon to fire a projectile
+    //if canfire == true, allows the player to fire a projectile
     private bool canFire = true;
     //sets player health
     private float health = 100f;

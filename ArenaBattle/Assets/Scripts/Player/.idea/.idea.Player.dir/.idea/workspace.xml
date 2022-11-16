@@ -9,6 +9,7 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/../Item/ITakeDamage.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../Item/Projectile.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../Item/Weapon.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../Managers/GameManager.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../Managers/WeaponPickup.cs" root0="SKIP_HIGHLIGHTING" />
@@ -17,6 +18,7 @@
     <setting file="file://$PROJECT_DIR$/LevelController.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Player.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SpawnPoint.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../Pool.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -44,7 +46,8 @@
       <option name="presentableId" value="Default" />
       <updated>1668396069833</updated>
       <workItem from="1668396069835" duration="2594000" />
-      <workItem from="1668493925490" duration="8340000" />
+      <workItem from="1668493925490" duration="13631000" />
+      <workItem from="1668555622039" duration="1925000" />
     </task>
     <servers />
   </component>

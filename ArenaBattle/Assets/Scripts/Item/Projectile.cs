@@ -7,7 +7,7 @@ public class Projectile : PooledObj
 {
     public void SetDamage(float damage) => this.damage = damage;
     private float damage = 1f;
-    float speed = 5;
+    float speed = 0.1f;
     private Player owner;
 
     public void SetOwner(Player player) => owner = player;

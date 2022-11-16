@@ -64,8 +64,6 @@ public class Weapon : MonoBehaviour
                 timeSinceLastShot = 0;
 
             }
-            
-        }
         else
         {
             Debug.Log("out of ammo");
