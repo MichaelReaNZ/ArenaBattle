@@ -6,13 +6,21 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using AsyncOperation = UnityEngine.AsyncOperation;
 
+public enum GameModeEnum
+{
+    KingOfTheHill,
+    MostKills,
+    MostResources,
+}
 public class GameManager : MonoBehaviour
 {
+    private bool modeSelected = false;
     public static GameManager Instance { get; private set; }
     public static event Action OnGameOver;
     public GameState currentGameState { get; private set; }
     public GameModeEnum GameMode { get; private set; }
     [SerializeField] private string levelToLoad;
+    [SerializeField] private GameObject message;
     
     public Player[] Players => _players;
     private Player[] _players;
@@ -25,16 +33,10 @@ public class GameManager : MonoBehaviour
     public Player winningPlayer;
     public Player currentKingOfTheHillPlayer;
 
+    [SerializeField] private GameObject modeSelectMenu;
     [SerializeField] public int shrinkAfterSeconds;
-    
-    //enum for game mode
-    public enum GameModeEnum
-    {
-        KingOfTheHill,
-        MostKills,
-        MostResources,
-    }
-    
+    private bool modeSelectMenuShowing = false;
+
     public enum GameState
     {
         MainMenu,
@@ -49,33 +51,59 @@ public class GameManager : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
-        } else if (Instance != this)
+        } 
+        else 
         {
             Destroy(gameObject);
         }
+
+        
     }
     
     // Start is called before the first frame update
     void Start()
     {
-        ChangeGameState(GameState.MainMenu);
+        
+        _players = FindObjectsOfType<Player>();
+        ModeSelectMenu.OnSelectMode+= ModeSelect_OnSelectMode;
     }
-    
+
+    private void ModeSelect_OnSelectMode(GameModeEnum obj)
+    {
+        GameMode = obj;
+        modeSelected = true;
+        modeSelectMenu.SetActive(false);
+        message.SetActive(true);
+        Debug.Log("Current game mode set to: " + GameMode);
+    }
+
     // Update is called once per frame
     void Update()
     {
         if (currentGameState == GameState.MainMenu)
         {
-           
-            //Input.GetButtonDown("Start")|| 
+            if (_players.Any(x=>x.HasController) && !modeSelectMenuShowing)
+            {
+                modeSelectMenu.SetActive(true);
+                modeSelectMenuShowing = true;
+            }
+            
+            if (!modeSelected)
+            {
+                return;
+            }
+            
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                if (_players.Any(x=>x.HasController))
+                if (_players.Any(x=>x.HasController) && modeSelected)
                 {
+                    Debug.Log("Starting game");
+                    message.SetActive(false);
                     ChangeGameState(GameState.GameInProgress);
                 }
-                
             }
+            
+            
         }
         if (currentGameState == GameState.GameOver)
         { 
@@ -111,11 +139,13 @@ public class GameManager : MonoBehaviour
             {
                 _players = FindObjectsOfType<Player>();
                 SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
+                ModeSelectMenu.OnSelectMode+= ModeSelect_OnSelectMode;
                 break;
             }
             case GameState.GameInProgress:
                 //TODO: Set a way to change game mode
-                StartCoroutine(BeginGame(GameModeEnum.MostKills));
+                ModeSelectMenu.OnSelectMode-= ModeSelect_OnSelectMode;
+                StartCoroutine(BeginGame());
                 break;
             case GameState.GameOver:
                 SceneManager.LoadScene("GameOver", LoadSceneMode.Single);
@@ -179,10 +209,8 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private IEnumerator BeginGame(GameModeEnum gameMode)
+    private IEnumerator BeginGame()
     {
-        GameMode = gameMode;
-            
         AsyncOperation operation = SceneManager.LoadSceneAsync(levelToLoad, LoadSceneMode.Additive);
         while (operation.isDone == false)
             yield return null;

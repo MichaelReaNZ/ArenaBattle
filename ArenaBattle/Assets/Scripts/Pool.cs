@@ -41,14 +41,17 @@ public class Pool : MonoBehaviour
             var obj = Instantiate(prefab) as PooledObj;
             obj.gameObject.name += " " + i;
             obj.OnReturnToPool += AddObjectToAvailable;
+            objects.Enqueue(obj);
             obj.gameObject.SetActive(false);
         }
     }
 
     private void AddObjectToAvailable(PooledObj obj)
     {
-        obj.transform.SetParent(transform);
+        
         objects.Enqueue(obj);
+        obj.gameObject.SetActive(false);
+        //obj.transform.SetParent(transform);
         Debug.Log("Sending To Pool");
     }
 }

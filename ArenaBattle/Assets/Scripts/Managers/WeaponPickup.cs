@@ -29,14 +29,14 @@ public class WeaponPickup : MonoBehaviour
         if (other.GetComponent<Character>())
         {
             other.GetComponent<Character>().SetWeapon(currentWeapon);
-            currentWeapon = null;
+            //currentWeapon = null;
         }
     }
 	//Adds factories to Spawn
-    [SerializeField]
-    private MachinegunFactory m_factory;
-    private DesertEagleFactory de_factory;
-    private RifleFactory r_factory;
+    
+    [SerializeField] private MachinegunFactory m_factory;
+    [SerializeField] private DesertEagleFactory de_factory;
+    [SerializeField] private RifleFactory r_factory;
     private IEnumerator SpawnItemRoutine()
     {
         while (spawnItems)
@@ -45,7 +45,7 @@ public class WeaponPickup : MonoBehaviour
             if (currentWeapon == null)
             {
                 //int rand = Random.Range(0, potentialWeapons.Length - 1);
-                int rand = Random.Range(0, 2);
+                int rand = Random.Range(0, 3);
                 //spawns weapons randomly
                 switch (rand)
                 {//creates weapon based on rand number
@@ -66,6 +66,8 @@ Debug.Log("Assigned Rifle");
                         currentWeapon = currentWeapon;
                         break;
                 }
+                Debug.Log(currentWeapon.getName());
+                
               
             }
         }

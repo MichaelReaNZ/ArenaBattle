@@ -7,7 +7,7 @@ public class Projectile : PooledObj
 {
     public void SetDamage(float damage) => this.damage = damage;
     private float damage = 1f;
-    float speed = 5;
+    float speed = 5f;
     private Player owner;
 
     public void SetOwner(Player player) => owner = player;
@@ -22,9 +22,11 @@ private void OnCollisionEnter(Collision collision)
         {
             damageTaker.TakeDamage(damage, owner);
         }
+        
+        Debug.Log(collision.gameObject.name);
 
         owner = null;
-        gameObject.SetActive(false);
+        ReturnToPool();
         Debug.Log("object inactive");
     }
 }

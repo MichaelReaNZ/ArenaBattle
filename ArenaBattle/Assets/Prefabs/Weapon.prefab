@@ -25,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8533448047979711343}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.12, y: -0.286, z: 0.26}
+  m_LocalPosition: {x: 28.09, y: 61.59, z: 4.2209997}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -48,7 +48,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponData: {fileID: 11400000, guid: 3124c2d4bdb26c549abdc0bf03244220, type: 2}
   bullet: {fileID: 1986797371801372551, guid: 6f9a67915e9407348a55891e08998b2d, type: 3}
-  attackPoint: {fileID: 8533448048638975926}
+  attackPoint: {fileID: 8533448048638975925}
 --- !u!1 &8533448048638975925
 GameObject:
   m_ObjectHideFlags: 0
@@ -73,7 +73,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8533448048638975925}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.18, y: 0.11, z: 0.77}
+  m_LocalPosition: {x: 0, y: 0, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

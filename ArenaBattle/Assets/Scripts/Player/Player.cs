@@ -6,6 +6,7 @@ using Random = UnityEngine.Random;
 public class Player : MonoBehaviour
 {
     [SerializeField] private int _playerNumber;
+    [SerializeField] private GameObject characterPrefab;
     public Controller Controller { get; private set; }
     public Character character;
 
@@ -52,7 +53,7 @@ public class Player : MonoBehaviour
     public int GetDamageMultiplier()
     {
         //switch based on class
-        return character._classType switch
+        return character.GetComponent<Character>()._classType switch
         {
             Character.ClassType.Balanced => 1,
             Character.ClassType.Brute => 2,
@@ -63,7 +64,7 @@ public class Player : MonoBehaviour
 	//spawns character at a position
     public void SpawnCharacter(Vector3 pos)
     {Debug.Log("Creating Character");
-        var character = Instantiate(this.character, pos, Quaternion.identity);
+        character = Instantiate(characterPrefab, pos, Quaternion.identity).GetComponent<Character>();
         
         character.SetController(Controller);
         _playerUI.DisableInitText();
@@ -73,6 +74,8 @@ public class Player : MonoBehaviour
         //get a random class type between 0 and the highest enum value
         var randomClassType = (Character.ClassType) Random.Range(0, maxClassType);
         character.SetClass(randomClassType);
+        character.SetPlayer(this);
+        
     }
 	//outputs game UI
     public void InitInGameUI()

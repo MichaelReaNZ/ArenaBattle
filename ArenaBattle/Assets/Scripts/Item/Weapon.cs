@@ -15,7 +15,7 @@ public class Weapon : MonoBehaviour
     private Player player;
 
     //sets weapon user as this weapons owner
-    public void SetPlayer(Player player) => this.player = player;
+    public void SetPlayer(Player playerObj) => player = playerObj;
    
     //returns the weapons name
     public string getName()
@@ -23,7 +23,7 @@ public class Weapon : MonoBehaviour
         return weaponData.name;
     }
 
-    public Transform attackPoint;
+    public GameObject attackPoint;
 
     
     private void Start()
@@ -49,14 +49,19 @@ public class Weapon : MonoBehaviour
                 {
                     Debug.Log("player null");
                 }
-                var currentBullet = bullet.Get<Projectile>();
+                var currentBullet = bullet.Get<Projectile>(false);
+                currentBullet.transform.position = transform.position + Vector3.forward;
+                currentBullet.gameObject.SetActive(true);
+                //currentBullet.GetComponent<Rigidbody>().isKinematic = true;
                 currentBullet.SetOwner(player);
                 currentBullet.SetDamage(player.GetDamageMultiplier() * weaponData.damage);
 
                 if (currentBullet != null)
-                {	currentBullet.transform.position = attackPoint.position;
+                {	
 					//sets bullet to have no rotation
-					currentBullet.transform.rotation = Quaternion.identity;
+					//c//urrentBullet.transform.rotation = Quaternion.identity;
+                    //currentBullet.gameObject.SetActive(true);
+                    //currentBullet.GetComponent<Rigidbody>().isKinematic = false;
                     Debug.Log("bullet created");
                 }else{Debug.Log("bullet not created");}
                 //reduces ammo after shot taken

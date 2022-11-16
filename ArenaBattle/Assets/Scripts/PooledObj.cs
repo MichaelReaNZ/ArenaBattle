@@ -28,7 +28,7 @@ public class PooledObj : MonoBehaviour
         return obj;
     }
 
-    private void OnDisable()
+    public void ReturnToPool()
     {
         OnReturnToPool?.Invoke(this);
     }

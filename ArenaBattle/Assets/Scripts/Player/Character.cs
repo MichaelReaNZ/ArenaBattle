@@ -3,15 +3,7 @@ using System.Collections;
 using UnityEngine;
 
 public class Character : MonoBehaviour, ITakeDamage
-{   //sets player attached to character to this character
-    public Character(Player player)
-    {
-        this.player = player;
-        if (this.player == null)
-        {
-            Debug.Log("character player null");
-        }
-    }
+{   
     //initialises movement speed and weapon point
     [SerializeField] private float movementSpeed = 5f;
     [SerializeField] private Transform weaponPoint;
@@ -29,7 +21,7 @@ public class Character : MonoBehaviour, ITakeDamage
     private bool canFire = true;
     //sets player health
     private float health = 100f;
-    
+    public void SetPlayer(Player player) => this.player = player;
     public float getHealth =>  health;
     //sets players class type
     public ClassType _classType;
@@ -50,26 +42,27 @@ public class Character : MonoBehaviour, ITakeDamage
 
     private void Start()
     {
-        
+        if (player == null)
+        {
+            Debug.Log("null Player in character");
+        }
         currentWeapon = defaultWeapon;
         currentWeapon.SetPlayer(player);
+        currentWeapon.transform.position = weaponPoint.position;
     }
 
     //Takes in Time to perish from weapon, then destroys weapon if time to perish is equal to zero
     private IEnumerator WeaponPerishRoutine()
     {
-        
-    
-        while (currentWeapon != null && currentWeapon != defaultWeapon) 
+        yield return new WaitForSeconds(betterWeapon.TimeToPerish);
+        if (betterWeapon != null)
         {
-                yield return new WaitForSeconds(currentWeapon.TimeToPerish);
-                Destroy(currentWeapon.gameObject);
-                currentWeapon = defaultWeapon;
-                currentWeapon.SetPlayer(player);
-                betterWeapon = null;
+            Destroy(betterWeapon.gameObject);
+            currentWeapon = defaultWeapon;
+            currentWeapon.SetPlayer(player);
+            betterWeapon = null;
+            Debug.Log(currentWeapon.name + ":  Weapon has perished");
         }
-        Debug.Log(currentWeapon.name + ":  Weapon has perished");
-       
     }
     //sets which controller the character is using
     public void SetController(Controller controller)
@@ -81,23 +74,15 @@ public class Character : MonoBehaviour, ITakeDamage
 //changes between weapons 
     public void SwitchWeapon()
     {
-        if (_controller.changeWeaponPressed)
+        if (currentWeapon != defaultWeapon)
         {
-            if (betterWeapon != null)
-            {
-                Debug.Log("Switching Weapons");
-                if (currentWeapon != defaultWeapon)
-                {
-                    currentWeapon = defaultWeapon;
-                }
-                else if (currentWeapon != betterWeapon)
-                {
-                    currentWeapon = betterWeapon;
-                }
-                currentWeapon.SetPlayer(player);
-            }
+            currentWeapon = defaultWeapon;
         }
-
+        else if (currentWeapon == defaultWeapon && betterWeapon != null)
+        {
+            currentWeapon = betterWeapon;
+        }
+        Debug.Log("Switching Weapons to " + currentWeapon.getName());
     }
     
     //moves the player if movement if pressed, shoots gun if the shoot button is pressed and canFire == true
@@ -108,15 +93,18 @@ public class Character : MonoBehaviour, ITakeDamage
         if (dir.magnitude > 0.25f)
         {
             transform.position += dir * Time.deltaTime * movementSpeed;
-            //Debug.Log("Moving Player");
         }
-        //rotator.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(rotationDir), _slerpRatio);
-        //_slerpRatio += Time.deltaTime;
-        
-        if (_controller.shootPressed) //&& canFire)
+
+        if (_controller.shootPressed)
         {
             Debug.Log("Shot Pressed");
             UseWeapon();
+        }
+
+        if (_controller.changeWeaponPressed)
+        {
+            Debug.Log("Weapon switch pressed");
+            SwitchWeapon();
         }
     }
     
@@ -149,15 +137,16 @@ public class Character : MonoBehaviour, ITakeDamage
     public void SetWeapon(Weapon weapon)
     {
         Debug.Log("Setting Weapon");
-        if (currentWeapon != null)
+        if (betterWeapon != null && currentWeapon != defaultWeapon)
         {
-            Destroy(currentWeapon.gameObject);
+            Destroy(betterWeapon.gameObject);
+            betterWeapon = null;
         }
 
         currentWeapon = weapon;
         betterWeapon = weapon;
-
-        currentWeapon.SetPlayer(player);
+        weapon.SetPlayer(player);
+        //currentWeapon.SetPlayer(player);
         currentWeapon.transform.position = weaponPoint.position;
         StartCoroutine(WeaponPerishRoutine());
     }
