@@ -15,7 +15,9 @@ public class Player : MonoBehaviour
     public int PlayerNumber => _playerNumber;
     
     public int numberOfKills = 0;
-    public TimeSpan timeAsKing = TimeSpan.Zero;
+    public float timeAsKing = 0;
+    //timer to track time as kind
+    public float currentTimeInKingZone = 0;
     public bool isKing = false;
     public int numberOfResourcesCollected = 0;
 
