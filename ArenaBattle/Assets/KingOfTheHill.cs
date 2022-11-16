@@ -7,14 +7,11 @@ public class KingOfTheHill : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
     }
 
     // Update is called once per frame
     void Update()
     {
-        //if there is only one player inside the hill collider then set them as the king
-        
         //get all the objects that have the script "Character"
         Character[] characters = FindObjectsOfType<Character>();
         
@@ -75,10 +72,7 @@ public class KingOfTheHill : MonoBehaviour
     //on enter event for the trigger
     void OnTriggerEnter(Collider other)
     {
-        //if the object that enters the trigger that contains the name Character
-
-        //if other.gameObject.name contains "Character"
-        if (other.gameObject.name.Contains("Character"))
+        if (other.GetComponent<Character>())
         {
             //get Character script
             Character character = other.gameObject.GetComponent<Character>();
@@ -97,10 +91,7 @@ public class KingOfTheHill : MonoBehaviour
     //on exit event for the trigger
     void OnTriggerExit(Collider other)
     {
-        //if the object that enters the trigger that contains the name Character
-
-        //if other.gameObject.name contains "Character"
-        if (other.gameObject.name.Contains("Character"))
+        if (other.GetComponent<Character>())
         {
             //get Character script
             Character character = other.gameObject.GetComponent<Character>();

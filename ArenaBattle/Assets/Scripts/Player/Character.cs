@@ -188,7 +188,10 @@ public class Character : MonoBehaviour, ITakeDamage
         Debug.Log("Character's Health is: " + health);
         if (health <= 0)
         {
-            enemy.IncrementKills();
+            if(enemy != null)
+            {
+                enemy.IncrementKills();
+            }
             //Kill character
             deaths = deaths + 1;
             health = 100f;
